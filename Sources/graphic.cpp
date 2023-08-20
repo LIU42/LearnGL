@@ -26,10 +26,21 @@ void GraphicWidget::initShapes()
     shape.initShape(this, &shader);
 }
 
-void GraphicWidget::setOffset(float offsetX, float offsetY)
+void GraphicWidget::setScreenRatio()
+{
+    float screenWidth = geometry().width();
+    float screenHeight = geometry().height();
+
+    shader.bind();
+    shader.setUniformValue("screenRatio", screenHeight / screenWidth);
+    shader.release();
+}
+
+void GraphicWidget::setOffset(float offsetX, float offsetY, float offsetAngle)
 {
     this->offsetX = offsetX;
     this->offsetY = offsetY;
+    this->offsetAngle = offsetAngle;
 }
 
 void GraphicWidget::initializeGL()
@@ -38,15 +49,17 @@ void GraphicWidget::initializeGL()
     setClearColor();
     loadShaders();
     initShapes();
+    setScreenRatio();
 }
 
 void GraphicWidget::resizeGL(int screenWidth, int screenHeight)
 {
     glViewport(0, 0, screenWidth, screenHeight);
+    setScreenRatio();
 }
 
 void GraphicWidget::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT);
-    shape.paintShape(offsetX, offsetY);
+    shape.paintShape(offsetX, offsetY, offsetAngle);
 }

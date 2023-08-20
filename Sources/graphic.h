@@ -33,12 +33,14 @@ class GraphicWidget : public QOpenGLWidget, QOpenGLFunctions
     private:
         float offsetX;
         float offsetY;
+        float offsetAngle;
 
     private:
         void setClearColor();
         void loadShaders();
         void initShapes();
         void initOffset();
+        void setScreenRatio();
 
     private:
         void initializeGL();
@@ -49,6 +51,6 @@ class GraphicWidget : public QOpenGLWidget, QOpenGLFunctions
         GraphicWidget(QWidget* parent = nullptr);
 
     public:
-        void setOffset(float, float);
+        void setOffset(float, float, float);
 };
 #endif

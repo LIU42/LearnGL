@@ -43,12 +43,13 @@ void TriangleShape::initShape(QOpenGLFunctions* pFunctions, QOpenGLShaderProgram
     unbindObjects();
 }
 
-void TriangleShape::paintShape(float offsetX, float offsetY)
+void TriangleShape::paintShape(float offsetX, float offsetY, float offsetAngle)
 {
     vertexArrayObject.bind();
     pShader->bind();
     pShader->setUniformValue("offsetX", offsetX);
     pShader->setUniformValue("offsetY", offsetY);
+    pShader->setUniformValue("offsetAngle", offsetAngle);
     pFunctions->glDrawArrays(GL_TRIANGLES, VERTEX_OFFSET, VERTEX_COUNT);
     vertexArrayObject.release();
     pShader->release();

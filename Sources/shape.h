@@ -10,8 +10,8 @@ class TriangleShape
 {
     private:
         static constexpr float VERTEX_ARRAY[] = {
-            -0.3f, -0.3f, 0.0f,
-             0.3f, -0.3f, 0.0f,
+            -0.4f, -0.3f, 0.0f,
+             0.4f, -0.3f, 0.0f,
              0.0f,  0.3f, 0.0f
         };
         static constexpr int VERTEX_DIMENSION = 3;
@@ -36,6 +36,6 @@ class TriangleShape
 
     public:
         void initShape(QOpenGLFunctions*, QOpenGLShaderProgram*);
-        void paintShape(float, float);
+        void paintShape(float, float, float);
 };
 #endif

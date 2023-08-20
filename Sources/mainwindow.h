@@ -17,10 +17,12 @@ QT_END_NAMESPACE
 
 enum OffsetDirect
 {
-    DIRECT_UP,
-    DIRECT_DOWN,
-    DIRECT_LEFT,
-    DIRECT_RIGHT,
+    TRANSLATION_UP,
+    TRANSLATION_DOWN,
+    TRANSLATION_LEFT,
+    TRANSLATION_RIGHT,
+    ROTATION_LEFT,
+    ROTATION_RIGHT
 };
 
 class MainWindow : public QMainWindow
@@ -28,11 +30,13 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
     private:
-        static constexpr float OFFSET_SPEED = 0.01f;
+        static constexpr float OFFSET_TRANSLATION_SPEED = 0.01f;
+        static constexpr float OFFSET_ROTATION_SPEED = 1.0f;
 
     private:
         static constexpr int FRAME_RATE = 60;
-        static constexpr int DIRECT_COUNT = 4;
+        static constexpr int DIRECT_COUNT = 6;
+        static constexpr int ROTATION_ANGLE_MOD = 360;
 
     private:
         Ui::MainWindow *ui;
@@ -44,6 +48,7 @@ class MainWindow : public QMainWindow
         bool isKeyPress[DIRECT_COUNT];
         float offsetX;
         float offsetY;
+        float offsetAngle;
 
     private:
         void mainInterval();
@@ -52,6 +57,10 @@ class MainWindow : public QMainWindow
         void setInterval();
         void connectTimers();
         void startTimers();
+
+    private:
+        void doTranslationOffset();
+        void doRotationOffset();
 
     private:
         void keyPressEvent(QKeyEvent*);
