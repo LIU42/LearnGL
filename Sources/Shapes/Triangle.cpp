@@ -1,26 +1,38 @@
-#include "shape.h"
+#include "Shapes/Triangle.h"
+
+TriangleShape::TriangleShape()
+{
+    pVertexArrayObject = new QOpenGLVertexArrayObject();
+    pVertexBufferObject = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
+}
+
+TriangleShape::~TriangleShape()
+{
+    delete pVertexArrayObject;
+    delete pVertexBufferObject;
+}
 
 void TriangleShape::createObjects()
 {
-    vertexArrayObject.create();
-    vertexBufferObject.create();
+    pVertexArrayObject->create();
+    pVertexBufferObject->create();
 }
 
 void TriangleShape::bindObjects()
 {
-    vertexArrayObject.bind();
-    vertexBufferObject.bind();
+    pVertexArrayObject->bind();
+    pVertexBufferObject->bind();
 }
 
 void TriangleShape::unbindObjects()
 {
-    vertexArrayObject.release();
-    vertexBufferObject.release();
+    pVertexArrayObject->release();
+    pVertexBufferObject->release();
 }
 
 void TriangleShape::allocateBuffer()
 {
-    vertexBufferObject.allocate(VERTEX_ARRAY, VERTEX_SIZE);
+    pVertexBufferObject->allocate(VERTEX_ARRAY, VERTEX_SIZE);
 }
 
 void TriangleShape::setAttribute()
@@ -45,12 +57,12 @@ void TriangleShape::initShape(QOpenGLFunctions* pFunctions, QOpenGLShaderProgram
 
 void TriangleShape::paintShape(float offsetX, float offsetY, float offsetAngle)
 {
-    vertexArrayObject.bind();
+    pVertexArrayObject->bind();
     pShader->bind();
     pShader->setUniformValue("offsetX", offsetX);
     pShader->setUniformValue("offsetY", offsetY);
     pShader->setUniformValue("offsetAngle", offsetAngle);
     pFunctions->glDrawArrays(GL_TRIANGLES, VERTEX_OFFSET, VERTEX_COUNT);
-    vertexArrayObject.release();
+    pVertexArrayObject->release();
     pShader->release();
 }

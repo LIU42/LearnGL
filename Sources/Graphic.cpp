@@ -1,4 +1,4 @@
-#include "graphic.h"
+#include "Graphic.h"
 
 GraphicWidget::GraphicWidget(QWidget* parent): QOpenGLWidget(parent)
 {
@@ -23,7 +23,8 @@ void GraphicWidget::loadShaders()
 
 void GraphicWidget::initShapes()
 {
-    shape.initShape(this, &shader);
+    triangle.initShape(this, &shader);
+    rectangle.initShape(this, &shader);
 }
 
 void GraphicWidget::setScreenRatio()
@@ -61,5 +62,5 @@ void GraphicWidget::resizeGL(int screenWidth, int screenHeight)
 void GraphicWidget::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT);
-    shape.paintShape(offsetX, offsetY, offsetAngle);
+    rectangle.paintShape(offsetX, offsetY, offsetAngle);
 }

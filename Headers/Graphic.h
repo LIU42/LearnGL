@@ -1,12 +1,13 @@
-#ifndef __GRAPHICWIDGET_H__
-#define __GRAPHICWIDGET_H__
+#ifndef __GRAPHIC_H__
+#define __GRAPHIC_H__
 
 #include <QOpenGLFunctions>
 #include <QOpenGLWidget>
 #include <QOpenGLShaderProgram>
 #include <QSurfaceFormat>
 
-#include "shape.h"
+#include "Shapes/Triangle.h"
+#include "Shapes/Rectangle.h"
 
 class GraphicWidget : public QOpenGLWidget, QOpenGLFunctions
 {
@@ -28,7 +29,8 @@ class GraphicWidget : public QOpenGLWidget, QOpenGLFunctions
         QSurfaceFormat format;
 
     private:
-        TriangleShape shape;
+        TriangleShape triangle;
+        RectangleShape rectangle;
 
     private:
         float offsetX;

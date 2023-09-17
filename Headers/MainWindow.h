@@ -71,6 +71,6 @@ class MainWindow : public QMainWindow
         ~MainWindow();
 
     public:
-        void init();
+        void initialize();
 };
 #endif

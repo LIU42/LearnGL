@@ -1,5 +1,5 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
+#include "MainWindow.h"
+#include "ui_MainWindow.h"
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -108,7 +108,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent* pKeyEvent)
     }
 }
 
-void MainWindow::init()
+void MainWindow::initialize()
 {
     initOffset();
     resetKeyStatus();
