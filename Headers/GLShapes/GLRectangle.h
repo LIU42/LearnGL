@@ -1,12 +1,12 @@
-#ifndef __SHAPES_RECTANGLE_H__
-#define __SHAPES_RECTANGLE_H__
+#ifndef __GLSHAPES_GLRECTANGLE_H__
+#define __GLSHAPES_GLRECTANGLE_H__
 
 #include <QOpenGLShaderProgram>
 #include <QOpenGLFunctions>
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLBuffer>
 
-class RectangleShape
+class GLRectangleShape
 {
     private:
         static constexpr float VERTEX_ARRAY[] = {
@@ -30,7 +30,7 @@ class RectangleShape
 
     private:
         QOpenGLShaderProgram* pShader;
-        QOpenGLFunctions* pFunctions;
+        QOpenGLFunctions* pGLFunctions;
 
     private:
         QOpenGLVertexArrayObject* pVertexArrayObject;
@@ -45,8 +45,8 @@ class RectangleShape
         void setAttribute();
 
     public:
-        RectangleShape();
-        ~RectangleShape();
+        GLRectangleShape();
+        ~GLRectangleShape();
 
     public:
         void initShape(QOpenGLFunctions*, QOpenGLShaderProgram*);

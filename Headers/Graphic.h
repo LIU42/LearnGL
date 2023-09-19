@@ -6,8 +6,8 @@
 #include <QOpenGLShaderProgram>
 #include <QSurfaceFormat>
 
-#include "Shapes/Triangle.h"
-#include "Shapes/Rectangle.h"
+#include "GLShapes/GLTriangle.h"
+#include "GLShapes/GLRectangle.h"
 
 class GraphicWidget : public QOpenGLWidget, QOpenGLFunctions
 {
@@ -29,8 +29,8 @@ class GraphicWidget : public QOpenGLWidget, QOpenGLFunctions
         QSurfaceFormat format;
 
     private:
-        TriangleShape triangle;
-        RectangleShape rectangle;
+        GLTriangleShape triangle;
+        GLRectangleShape rectangle;
 
     private:
         float offsetX;

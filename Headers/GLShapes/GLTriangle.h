@@ -1,12 +1,12 @@
-#ifndef __SHAPES_TRIANGLE_H__
-#define __SHAPES_TRIANGLE_H__
+#ifndef __GLSHAPES_GLTRIANGLE_H__
+#define __GLSHAPES_GLTRIANGLE_H__
 
 #include <QOpenGLShaderProgram>
 #include <QOpenGLFunctions>
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLBuffer>
 
-class TriangleShape
+class GLTriangleShape
 {
     private:
         static constexpr float VERTEX_ARRAY[] = {
@@ -21,7 +21,7 @@ class TriangleShape
 
     private:
         QOpenGLShaderProgram* pShader;
-        QOpenGLFunctions* pFunctions;
+        QOpenGLFunctions* pGLFunctions;
 
     private:
         QOpenGLVertexArrayObject* pVertexArrayObject;
@@ -35,8 +35,8 @@ class TriangleShape
         void setAttribute();
 
     public:
-        TriangleShape();
-        ~TriangleShape();
+        GLTriangleShape();
+        ~GLTriangleShape();
 
     public:
         void initShape(QOpenGLFunctions*, QOpenGLShaderProgram*);

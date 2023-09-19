@@ -11,15 +11,15 @@ CONFIG += c++17
 INCLUDEPATH += $$PWD/Headers/
 
 SOURCES += \
-	Sources/Shapes/Rectangle.cpp \
-	Sources/Shapes/Triangle.cpp \
+	Sources/GLShapes/GLRectangle.cpp \
+	Sources/GLShapes/GLTriangle.cpp \
 	Sources/Graphic.cpp \
 	Sources/Main.cpp \
 	Sources/MainWindow.cpp
 
 HEADERS += \
-	Headers/Shapes/Rectangle.h \
-	Headers/Shapes/Triangle.h \
+	Headers/GLShapes/GLRectangle.h \
+	Headers/GLShapes/GLTriangle.h \
 	Headers/Graphic.h \
 	Headers/MainWindow.h
 
@@ -35,4 +35,3 @@ RESOURCES += \
 	Resources/Resources.qrc
 
 RC_ICONS = Resources/Images/icon.ico
-

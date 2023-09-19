@@ -1,41 +1,47 @@
-#include "Shapes/Triangle.h"
+#include "GLShapes/GLRectangle.h"
 
-TriangleShape::TriangleShape()
+GLRectangleShape::GLRectangleShape()
 {
     pVertexArrayObject = new QOpenGLVertexArrayObject();
     pVertexBufferObject = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
+    pIndexBufferObject = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
 }
 
-TriangleShape::~TriangleShape()
+GLRectangleShape::~GLRectangleShape()
 {
     delete pVertexArrayObject;
     delete pVertexBufferObject;
+    delete pIndexBufferObject;
 }
 
-void TriangleShape::createObjects()
+void GLRectangleShape::createObjects()
 {
     pVertexArrayObject->create();
     pVertexBufferObject->create();
+    pIndexBufferObject->create();
 }
 
-void TriangleShape::bindObjects()
+void GLRectangleShape::bindObjects()
 {
     pVertexArrayObject->bind();
     pVertexBufferObject->bind();
+    pIndexBufferObject->bind();
 }
 
-void TriangleShape::unbindObjects()
+void GLRectangleShape::unbindObjects()
 {
     pVertexArrayObject->release();
     pVertexBufferObject->release();
+    pIndexBufferObject->release();
 }
 
-void TriangleShape::allocateBuffer()
+void GLRectangleShape::allocateBuffer()
 {
     pVertexBufferObject->allocate(VERTEX_ARRAY, VERTEX_SIZE);
+    pIndexBufferObject->allocate(INDEX_ARRAY, INDEX_SIZE);
 }
 
-void TriangleShape::setAttribute()
+void GLRectangleShape::setAttribute()
 {
     pShader->bind();
     pShader->setAttributeBuffer("position", GL_FLOAT, VERTEX_OFFSET, VERTEX_DIMENSION);
@@ -43,9 +49,9 @@ void TriangleShape::setAttribute()
     pShader->release();
 }
 
-void TriangleShape::initShape(QOpenGLFunctions* pFunctions, QOpenGLShaderProgram* pShader)
+void GLRectangleShape::initShape(QOpenGLFunctions* pGLFunctions, QOpenGLShaderProgram* pShader)
 {
-    this->pFunctions = pFunctions;
+    this->pGLFunctions = pGLFunctions;
     this->pShader = pShader;
 
     createObjects();
@@ -55,14 +61,14 @@ void TriangleShape::initShape(QOpenGLFunctions* pFunctions, QOpenGLShaderProgram
     unbindObjects();
 }
 
-void TriangleShape::paintShape(float offsetX, float offsetY, float offsetAngle)
+void GLRectangleShape::paintShape(float offsetX, float offsetY, float offsetAngle)
 {
     pVertexArrayObject->bind();
     pShader->bind();
     pShader->setUniformValue("offsetX", offsetX);
     pShader->setUniformValue("offsetY", offsetY);
     pShader->setUniformValue("offsetAngle", offsetAngle);
-    pFunctions->glDrawArrays(GL_TRIANGLES, VERTEX_OFFSET, VERTEX_COUNT);
+    pGLFunctions->glDrawElements(GL_TRIANGLES, INDEX_COUNT, GL_UNSIGNED_INT, NULL);
     pVertexArrayObject->release();
     pShader->release();
 }
