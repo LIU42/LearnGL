@@ -8,6 +8,7 @@
 
 #include "GLShapes/GLTriangle.h"
 #include "GLShapes/GLRectangle.h"
+#include "GLShapes/GLTexture.h"
 
 class GraphicWidget : public QOpenGLWidget, QOpenGLFunctions
 {
@@ -25,12 +26,14 @@ class GraphicWidget : public QOpenGLWidget, QOpenGLFunctions
         static constexpr float CLEAR_COLOR_A = 1.0f;
 
     private:
-        QOpenGLShaderProgram shader;
+        QOpenGLShaderProgram graphicShader;
+        QOpenGLShaderProgram textureShader;
         QSurfaceFormat format;
 
     private:
         GLTriangleShape triangle;
         GLRectangleShape rectangle;
+        GLTextureShape texture;
 
     private:
         float offsetX;
@@ -38,7 +41,7 @@ class GraphicWidget : public QOpenGLWidget, QOpenGLFunctions
         float offsetAngle;
 
     private:
-        void setClearColor();
+        void setOpenGLConfig();
         void loadShaders();
         void initShapes();
         void initOffset();
@@ -51,6 +54,7 @@ class GraphicWidget : public QOpenGLWidget, QOpenGLFunctions
 
     public:
         GraphicWidget(QWidget* parent = nullptr);
+        ~GraphicWidget();
 
     public:
         void setOffset(float, float, float);

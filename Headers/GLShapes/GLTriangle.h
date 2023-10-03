@@ -10,9 +10,9 @@ class GLTriangleShape
 {
     private:
         static constexpr float VERTEX_ARRAY[] = {
-            -0.4f, -0.3f, 0.0f,
-             0.4f, -0.3f, 0.0f,
-             0.0f,  0.3f, 0.0f
+            -0.4f, -0.3f,  0.0f,
+             0.4f, -0.3f,  0.0f,
+             0.0f,  0.3f,  0.0f
         };
         static constexpr int VERTEX_DIMENSION = 3;
         static constexpr int VERTEX_COUNT = 3;

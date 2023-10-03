@@ -59,8 +59,8 @@ class MainWindow : public QMainWindow
         void startTimers();
 
     private:
-        void doTranslationOffset();
-        void doRotationOffset();
+        void getTranslationOffset();
+        void getRotationOffset();
 
     private:
         void keyPressEvent(QKeyEvent*);

@@ -13,6 +13,7 @@ INCLUDEPATH += $$PWD/Headers/
 SOURCES += \
 	Sources/GLShapes/GLRectangle.cpp \
 	Sources/GLShapes/GLTriangle.cpp \
+	Sources/GLShapes/GLTexture.cpp \
 	Sources/Graphic.cpp \
 	Sources/Main.cpp \
 	Sources/MainWindow.cpp
@@ -20,6 +21,7 @@ SOURCES += \
 HEADERS += \
 	Headers/GLShapes/GLRectangle.h \
 	Headers/GLShapes/GLTriangle.h \
+	Headers/GLShapes/GLTexture.h \
 	Headers/Graphic.h \
 	Headers/MainWindow.h
 
@@ -35,3 +37,4 @@ RESOURCES += \
 	Resources/Resources.qrc
 
 RC_ICONS = Resources/Images/icon.ico
+

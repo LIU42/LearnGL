@@ -1,7 +1,10 @@
 <RCC>
     <qresource prefix="/">
         <file>Images/icon.ico</file>
-        <file>Shaders/fragment.glsl</file>
-        <file>Shaders/vertex.glsl</file>
+        <file>Images/texture.png</file>
+        <file>Shaders/TextureFragment.glsl</file>
+        <file>Shaders/TextureVertex.glsl</file>
+        <file>Shaders/GraphicFragment.glsl</file>
+        <file>Shaders/GraphicVertex.glsl</file>
     </qresource>
 </RCC>

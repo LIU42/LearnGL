@@ -13,8 +13,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::mainInterval()
 {
-    doTranslationOffset();
-    doRotationOffset();
+    getTranslationOffset();
+    getRotationOffset();
 
     ui->pGraphic->setOffset(offsetX, offsetY, offsetAngle);
     ui->pGraphic->update();
@@ -50,7 +50,7 @@ void MainWindow::startTimers()
     intervalTimer.start();
 }
 
-void MainWindow::doTranslationOffset()
+void MainWindow::getTranslationOffset()
 {
     if (isKeyPress[TRANSLATION_UP])
     {
@@ -70,7 +70,7 @@ void MainWindow::doTranslationOffset()
     }
 }
 
-void MainWindow::doRotationOffset()
+void MainWindow::getRotationOffset()
 {
     if (isKeyPress[ROTATION_LEFT])
     {

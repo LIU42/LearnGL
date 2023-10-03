@@ -1,70 +1,85 @@
-#include "GLShapes/GLRectangle.h"
+#include "GLShapes/GLTexture.h"
 
-GLRectangleShape::GLRectangleShape()
+GLTextureShape::GLTextureShape()
 {
     pVertexArrayObject = new QOpenGLVertexArrayObject();
     pVertexBufferObject = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     pIndexBufferObject = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    pTextureObject = new QOpenGLTexture(QOpenGLTexture::Target2D);
 }
 
-GLRectangleShape::~GLRectangleShape()
+GLTextureShape::~GLTextureShape()
 {
     delete pVertexArrayObject;
     delete pVertexBufferObject;
     delete pIndexBufferObject;
+    delete pTextureObject;
 }
 
-void GLRectangleShape::createObjects()
+void GLTextureShape::createObjects()
 {
     pVertexArrayObject->create();
     pVertexBufferObject->create();
     pIndexBufferObject->create();
+    pTextureObject->create();
 }
 
-void GLRectangleShape::bindObjects()
+void GLTextureShape::setTextures()
+{
+    pTextureObject->setData(QImage(":/Images/texture.png").mirrored());
+    pTextureObject->generateMipMaps();
+    pTextureObject->setMinMagFilters(QOpenGLTexture::LinearMipMapLinear, QOpenGLTexture::Linear);
+}
+
+void GLTextureShape::bindObjects()
 {
     pVertexArrayObject->bind();
     pVertexBufferObject->bind();
     pIndexBufferObject->bind();
 }
 
-void GLRectangleShape::unbindObjects()
+void GLTextureShape::unbindObjects()
 {
     pVertexArrayObject->release();
     pVertexBufferObject->release();
     pIndexBufferObject->release();
 }
 
-void GLRectangleShape::allocateBuffer()
+void GLTextureShape::allocateBuffer()
 {
     pVertexBufferObject->allocate(VERTEX_ARRAY, VERTEX_SIZE);
     pIndexBufferObject->allocate(INDEX_ARRAY, INDEX_SIZE);
 }
 
-void GLRectangleShape::setAttribute()
+void GLTextureShape::setAttribute()
 {
     pShader->bind();
-    pShader->setAttributeBuffer("inPosition", GL_FLOAT, VERTEX_OFFSET, VERTEX_DIMENSION);
+    pShader->setAttributeBuffer("inPosition", GL_FLOAT, VERTEX_OFFSET, VERTEX_DIMENSION, VERTEX_STRIDE);
+    pShader->setAttributeBuffer("inTexCoord", GL_FLOAT, TEXTURE_OFFSET, TEXTURE_DIMENSION, VERTEX_STRIDE);
     pShader->enableAttributeArray("inPosition");
+    pShader->enableAttributeArray("inTexCoord");
     pShader->release();
 }
 
-void GLRectangleShape::initShape(QOpenGLFunctions* pGLFunctions, QOpenGLShaderProgram* pShader)
+void GLTextureShape::initShape(QOpenGLFunctions* pGLFunctions, QOpenGLShaderProgram* pShader)
 {
     this->pGLFunctions = pGLFunctions;
     this->pShader = pShader;
 
     createObjects();
+    setTextures();
     bindObjects();
     allocateBuffer();
     setAttribute();
     unbindObjects();
 }
 
-void GLRectangleShape::paintShape(float offsetX, float offsetY, float offsetAngle)
+void GLTextureShape::paintShape(float offsetX, float offsetY, float offsetAngle)
 {
     pVertexArrayObject->bind();
+    pTextureObject->bind(TEXTURE_SAMPLER);
     pShader->bind();
+    pShader->setUniformValue("textureSampler", TEXTURE_SAMPLER);
     pShader->setUniformValue("offsetX", offsetX);
     pShader->setUniformValue("offsetY", offsetY);
     pShader->setUniformValue("offsetAngle", offsetAngle);
