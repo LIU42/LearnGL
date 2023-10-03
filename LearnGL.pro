@@ -37,4 +37,3 @@ RESOURCES += \
 	Resources/Resources.qrc
 
 RC_ICONS = Resources/Images/icon.ico
-
