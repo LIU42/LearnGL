@@ -31,6 +31,10 @@ class GLTextureShape
         static constexpr int INDEX_SIZE = 24;
 
     private:
+        static constexpr int POSITION_LAYOUT = 0;
+        static constexpr int TEXCROOD_LAYOUT = 1;
+
+    private:
         static constexpr int TEXTURE_OFFSET = 12;
         static constexpr int TEXTURE_DIMENSION = 2;
         static constexpr int TEXTURE_SAMPLER = 0;
@@ -58,7 +62,7 @@ class GLTextureShape
         ~GLTextureShape();
 
     public:
-        void initShape(QOpenGLFunctions*, QOpenGLShaderProgram*);
-        void paintShape(float, float, float);
+        void initShape(QOpenGLFunctions* pGLFunctions, QOpenGLShaderProgram* pShader);
+        void paintShape(float offsetX, float offsetY, float offsetAngle);
 };
 #endif

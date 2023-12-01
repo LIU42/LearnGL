@@ -54,10 +54,10 @@ void GLTextureShape::allocateBuffer()
 void GLTextureShape::setAttribute()
 {
     pShader->bind();
-    pShader->setAttributeBuffer("inPosition", GL_FLOAT, VERTEX_OFFSET, VERTEX_DIMENSION, VERTEX_STRIDE);
-    pShader->setAttributeBuffer("inTexCoord", GL_FLOAT, TEXTURE_OFFSET, TEXTURE_DIMENSION, VERTEX_STRIDE);
-    pShader->enableAttributeArray("inPosition");
-    pShader->enableAttributeArray("inTexCoord");
+    pShader->setAttributeBuffer(POSITION_LAYOUT, GL_FLOAT, VERTEX_OFFSET, VERTEX_DIMENSION, VERTEX_STRIDE);
+    pShader->setAttributeBuffer(TEXCROOD_LAYOUT, GL_FLOAT, TEXTURE_OFFSET, TEXTURE_DIMENSION, VERTEX_STRIDE);
+    pShader->enableAttributeArray(POSITION_LAYOUT);
+    pShader->enableAttributeArray(TEXCROOD_LAYOUT);
     pShader->release();
 }
 

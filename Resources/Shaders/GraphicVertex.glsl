@@ -1,6 +1,6 @@
-#version 330 core
+#version 450 core
 
-in vec3 inPosition;
+layout (location = 0) in vec3 inPosition;
 
 uniform float screenRatio;
 uniform float offsetX;

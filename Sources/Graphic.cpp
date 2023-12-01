@@ -2,9 +2,9 @@
 
 GraphicWidget::GraphicWidget(QWidget* parent): QOpenGLWidget(parent)
 {
-    format.setVersion(OPENGL_MAJOR_VERSION, OPENGL_MINOR_VERSION);
+    //format.setVersion(OPENGL_MAJOR_VERSION, OPENGL_MINOR_VERSION);
     format.setSamples(MSAA_SAMPLE);
-    format.setProfile(QSurfaceFormat::CoreProfile);
+    //format.setProfile(QSurfaceFormat::CoreProfile);
     setFormat(format);
 }
 

@@ -20,6 +20,9 @@ class GLTriangleShape
         static constexpr int VERTEX_OFFSET = 0;
 
     private:
+        static constexpr int POSITION_LAYOUT = 0;
+
+    private:
         QOpenGLShaderProgram* pShader;
         QOpenGLFunctions* pGLFunctions;
 
@@ -39,7 +42,7 @@ class GLTriangleShape
         ~GLTriangleShape();
 
     public:
-        void initShape(QOpenGLFunctions*, QOpenGLShaderProgram*);
-        void paintShape(float, float, float);
+        void initShape(QOpenGLFunctions* pGLFunctions, QOpenGLShaderProgram* pShader);
+        void paintShape(float offsetX, float offsetY, float offsetAngle);
 };
 #endif

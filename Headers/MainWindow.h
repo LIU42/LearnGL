@@ -63,8 +63,8 @@ class MainWindow : public QMainWindow
         void getRotationOffset();
 
     private:
-        void keyPressEvent(QKeyEvent*);
-        void keyReleaseEvent(QKeyEvent*);
+        void keyPressEvent(QKeyEvent* pKeyEvent);
+        void keyReleaseEvent(QKeyEvent* pKeyEvent);
 
     public:
         MainWindow(QWidget *parent = nullptr);

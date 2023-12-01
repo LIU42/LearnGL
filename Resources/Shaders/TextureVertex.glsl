@@ -1,7 +1,7 @@
-#version 330 core
+#version 450 core
 
-in vec3 inPosition;
-in vec2 inTexCoord;
+layout (location = 0) in vec3 inPosition;
+layout (location = 1) in vec2 inTexCoord;
 
 uniform float screenRatio;
 uniform float offsetX;

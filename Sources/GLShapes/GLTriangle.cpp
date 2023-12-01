@@ -38,8 +38,8 @@ void GLTriangleShape::allocateBuffer()
 void GLTriangleShape::setAttribute()
 {
     pShader->bind();
-    pShader->setAttributeBuffer("inPosition", GL_FLOAT, VERTEX_OFFSET, VERTEX_DIMENSION);
-    pShader->enableAttributeArray("inPosition");
+    pShader->setAttributeBuffer(POSITION_LAYOUT, GL_FLOAT, VERTEX_OFFSET, VERTEX_DIMENSION);
+    pShader->enableAttributeArray(POSITION_LAYOUT);
     pShader->release();
 }
 

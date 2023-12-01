@@ -15,9 +15,9 @@ class GraphicWidget : public QOpenGLWidget, QOpenGLFunctions
     Q_OBJECT
 
     private:
-        static constexpr int OPENGL_MAJOR_VERSION = 3;
-        static constexpr int OPENGL_MINOR_VERSION = 3;
-        static constexpr int MSAA_SAMPLE = 16;
+        static constexpr int OPENGL_MAJOR_VERSION = 4;
+        static constexpr int OPENGL_MINOR_VERSION = 5;
+        static constexpr int MSAA_SAMPLE = 4;
 
     private:
         static constexpr float CLEAR_COLOR_R = 0.2f;
@@ -49,7 +49,7 @@ class GraphicWidget : public QOpenGLWidget, QOpenGLFunctions
 
     private:
         void initializeGL();
-        void resizeGL(int, int);
+        void resizeGL(int screenWidth, int screenHeight);
         void paintGL();
 
     public:
@@ -57,6 +57,6 @@ class GraphicWidget : public QOpenGLWidget, QOpenGLFunctions
         ~GraphicWidget();
 
     public:
-        void setOffset(float, float, float);
+        void setOffset(float offsetX, float offsetY, float offsetAngle);
 };
 #endif
