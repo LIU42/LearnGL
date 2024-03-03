@@ -1,81 +1,52 @@
 #include "Graphic.h"
 
-GraphicWidget::GraphicWidget(QWidget* parent): QOpenGLWidget(parent)
+GraphicWidget::GraphicWidget(QWidget* parent): QOpenGLWidget(parent), pFormat(new QSurfaceFormat())
 {
-    //format.setVersion(OPENGL_MAJOR_VERSION, OPENGL_MINOR_VERSION);
-    format.setSamples(MSAA_SAMPLE);
-    //format.setProfile(QSurfaceFormat::CoreProfile);
-    setFormat(format);
+    pFormat->setVersion(OPENGL_MAJOR_VERSION, OPENGL_MINOR_VERSION);
+    pFormat->setSamples(MSAA_SAMPLE);
+    pFormat->setProfile(QSurfaceFormat::CoreProfile);
+    setFormat(*pFormat);
 }
 
 GraphicWidget::~GraphicWidget()
 {
     makeCurrent();
+    delete pTriangle;
+    delete pRectangle;
+    delete pTexture;
+    delete pFormat;
 }
 
-void GraphicWidget::setOpenGLConfig()
+void GraphicWidget::setShapeOffset(ShapeOffset* pOffset)
 {
-    glClearColor(CLEAR_COLOR_R, CLEAR_COLOR_G, CLEAR_COLOR_B, CLEAR_COLOR_A);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-}
-
-void GraphicWidget::loadShaders()
-{
-    graphicShader.create();
-    graphicShader.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/Shaders/GraphicVertex.glsl");
-    graphicShader.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/Shaders/GraphicFragment.glsl");
-    graphicShader.link();
-    textureShader.create();
-    textureShader.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/Shaders/TextureVertex.glsl");
-    textureShader.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/Shaders/TextureFragment.glsl");
-    textureShader.link();
-}
-
-void GraphicWidget::initShapes()
-{
-    triangle.initShape(this, &graphicShader);
-    rectangle.initShape(this, &graphicShader);
-    texture.initShape(this, &textureShader);
-}
-
-void GraphicWidget::setScreenRatio()
-{
-    float screenWidth = geometry().width();
-    float screenHeight = geometry().height();
-
-    textureShader.bind();
-    textureShader.setUniformValue("screenRatio", screenHeight / screenWidth);
-    textureShader.release();
-    graphicShader.bind();
-    graphicShader.setUniformValue("screenRatio", screenHeight / screenWidth);
-    graphicShader.release();
-}
-
-void GraphicWidget::setOffset(float offsetX, float offsetY, float offsetAngle)
-{
-    this->offsetX = offsetX;
-    this->offsetY = offsetY;
-    this->offsetAngle = offsetAngle;
+    this->pOffset = pOffset;
 }
 
 void GraphicWidget::initializeGL()
 {
     initializeOpenGLFunctions();
-    setOpenGLConfig();
-    loadShaders();
-    initShapes();
-    setScreenRatio();
+
+    glClearColor(CLEAR_COLOR_R, CLEAR_COLOR_G, CLEAR_COLOR_B, CLEAR_COLOR_A);
+    glEnable(GL_MULTISAMPLE);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    pTriangle = new GLTriangleShape(this);
+    pRectangle = new GLRectangleShape(this);
+    pTexture = new GLTextureShape(this);
 }
 
-void GraphicWidget::resizeGL(int screenWidth, int screenHeight)
+void GraphicWidget::resizeGL(int viewportWidth, int viewportHeight)
 {
-    glViewport(0, 0, screenWidth, screenHeight);
-    setScreenRatio();
+    float aspectRatio = (float)viewportHeight / (float)viewportWidth;
+
+    pTriangle->setAspectRatio(aspectRatio);
+    pRectangle->setAspectRatio(aspectRatio);
+    pTexture->setAspectRatio(aspectRatio);
 }
 
 void GraphicWidget::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT);
-    texture.paintShape(offsetX, offsetY, offsetAngle);
+    pTexture->paint(pOffset->getOffsetX(), pOffset->getOffsetY(), pOffset->getRotate());
 }

@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>640</width>
+    <height>480</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>LearnOpenGL</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../Resources/resources.qrc">
+   <iconset resource="../Resources/Resources.qrc">
     <normaloff>:/Images/icon.ico</normaloff>:/Images/icon.ico</iconset>
   </property>
   <widget class="QWidget" name="pCentralWidget">
@@ -35,7 +35,7 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="GraphicWidget" name="pGraphic"/>
+     <widget class="GraphicWidget" name="pGraphicWidget"/>
     </item>
    </layout>
   </widget>
@@ -48,7 +48,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../Resources/resources.qrc"/>
+  <include location="../Resources/Resources.qrc"/>
  </resources>
  <connections/>
 </ui>

@@ -1,118 +1,94 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 
-MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
+KeyStatus::KeyStatus(): pKeyCodeMap(new KeyCodeMap())
 {
+    pKeyCodeMap->insert(Qt::Key_W, OffsetDirect::TRANSLATION_UP);
+    pKeyCodeMap->insert(Qt::Key_S, OffsetDirect::TRANSLATION_DOWN);
+    pKeyCodeMap->insert(Qt::Key_A, OffsetDirect::TRANSLATION_LEFT);
+    pKeyCodeMap->insert(Qt::Key_D, OffsetDirect::TRANSLATION_RIGHT);
+    pKeyCodeMap->insert(Qt::Key_Q, OffsetDirect::ROTATION_LEFT);
+    pKeyCodeMap->insert(Qt::Key_E, OffsetDirect::ROTATION_RIGHT);
+}
+
+KeyStatus::~KeyStatus()
+{
+    delete pKeyCodeMap;
+}
+
+void KeyStatus::setPress(int keyCode)
+{
+    keyPress[(int)pKeyCodeMap->value(keyCode)] = true;
+}
+
+void KeyStatus::setRelease(int keyCode)
+{
+    keyPress[(int)pKeyCodeMap->value(keyCode)] = false;
+}
+
+void KeyStatus::reset()
+{
+    for (int direct = 0; direct < ShapeOffset::DIRECT_COUNT; direct++)
+    {
+        keyPress[direct] = false;
+    }
+}
+
+const bool* KeyStatus::getKeyPress()
+{
+    return keyPress;
+}
+
+WindowTimers::WindowTimers(): pFrameTimer(new QTimer())
+{
+    pFrameTimer->setInterval(FRAME_INTERVAL);
+    pFrameTimer->start();
+}
+
+WindowTimers::~WindowTimers()
+{
+    delete pFrameTimer;
+}
+
+const QTimer* WindowTimers::getFrameTimer()
+{
+    return pFrameTimer;
+}
+
+MainWindow::MainWindow(QWidget* parent): QMainWindow(parent), ui(new Ui::MainWindow)
+{
+    pShapeOffset = new ShapeOffset();
+    pKeyStatus = new KeyStatus();
+    pWindowTimers = new WindowTimers();
+
     ui->setupUi(this);
+    ui->pGraphicWidget->setShapeOffset(pShapeOffset);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
-}
-
-void MainWindow::mainInterval()
-{
-    getTranslationOffset();
-    getRotationOffset();
-
-    ui->pGraphic->setOffset(offsetX, offsetY, offsetAngle);
-    ui->pGraphic->update();
-}
-
-void MainWindow::initOffset()
-{
-    offsetX = 0;
-    offsetY = 0;
-    offsetAngle = 0;
-}
-
-void MainWindow::resetKeyStatus()
-{
-    for (int direct = 0; direct < DIRECT_COUNT; direct++)
-    {
-        isKeyPress[direct] = false;
-    }
-}
-
-void MainWindow::setInterval()
-{
-    intervalTimer.setInterval(1000 / FRAME_RATE);
-}
-
-void MainWindow::connectTimers()
-{
-    connect(&intervalTimer, &QTimer::timeout, this, &MainWindow::mainInterval);
-}
-
-void MainWindow::startTimers()
-{
-    intervalTimer.start();
-}
-
-void MainWindow::getTranslationOffset()
-{
-    if (isKeyPress[TRANSLATION_UP])
-    {
-        offsetY += OFFSET_TRANSLATION_SPEED;
-    }
-    if (isKeyPress[TRANSLATION_DOWN])
-    {
-        offsetY -= OFFSET_TRANSLATION_SPEED;
-    }
-    if (isKeyPress[TRANSLATION_LEFT])
-    {
-        offsetX -= OFFSET_TRANSLATION_SPEED;
-    }
-    if (isKeyPress[TRANSLATION_RIGHT])
-    {
-        offsetX += OFFSET_TRANSLATION_SPEED;
-    }
-}
-
-void MainWindow::getRotationOffset()
-{
-    if (isKeyPress[ROTATION_LEFT])
-    {
-        offsetAngle = fmod(offsetAngle + OFFSET_ROTATION_SPEED, ROTATION_ANGLE_MOD);
-    }
-    if (isKeyPress[ROTATION_RIGHT])
-    {
-        offsetAngle = fmod(offsetAngle - OFFSET_ROTATION_SPEED, ROTATION_ANGLE_MOD);
-    }
+    delete pShapeOffset;
+    delete pKeyStatus;
+    delete pWindowTimers;
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* pKeyEvent)
 {
-    switch (pKeyEvent->key())
-    {
-        case Qt::Key_W: isKeyPress[TRANSLATION_UP] = true; break;
-        case Qt::Key_S: isKeyPress[TRANSLATION_DOWN] = true; break;
-        case Qt::Key_A: isKeyPress[TRANSLATION_LEFT] = true; break;
-        case Qt::Key_D: isKeyPress[TRANSLATION_RIGHT] = true; break;
-        case Qt::Key_Q: isKeyPress[ROTATION_LEFT] = true; break;
-        case Qt::Key_E: isKeyPress[ROTATION_RIGHT] = true; break;
-    }
+    pKeyStatus->setPress(pKeyEvent->key());
 }
 
 void MainWindow::keyReleaseEvent(QKeyEvent* pKeyEvent)
 {
-    switch (pKeyEvent->key())
-    {
-        case Qt::Key_W: isKeyPress[TRANSLATION_UP] = false; break;
-        case Qt::Key_S: isKeyPress[TRANSLATION_DOWN] = false; break;
-        case Qt::Key_A: isKeyPress[TRANSLATION_LEFT] = false; break;
-        case Qt::Key_D: isKeyPress[TRANSLATION_RIGHT] = false; break;
-        case Qt::Key_Q: isKeyPress[ROTATION_LEFT] = false; break;
-        case Qt::Key_E: isKeyPress[ROTATION_RIGHT] = false; break;
-    }
+    pKeyStatus->setRelease(pKeyEvent->key());
 }
 
-void MainWindow::initialize()
+void MainWindow::init()
 {
-    initOffset();
-    resetKeyStatus();
-    setInterval();
-    connectTimers();
-    startTimers();
+    connect(pWindowTimers->getFrameTimer(), &QTimer::timeout, this, [=]()
+    {
+        pShapeOffset->update(pKeyStatus->getKeyPress());
+        ui->pGraphicWidget->update();
+    });
+    pKeyStatus->reset();
 }

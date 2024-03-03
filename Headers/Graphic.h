@@ -6,6 +6,7 @@
 #include <QOpenGLShaderProgram>
 #include <QSurfaceFormat>
 
+#include "ShapeOffset.h"
 #include "GLShapes/GLTriangle.h"
 #include "GLShapes/GLRectangle.h"
 #include "GLShapes/GLTexture.h"
@@ -26,37 +27,24 @@ class GraphicWidget : public QOpenGLWidget, QOpenGLFunctions
         static constexpr float CLEAR_COLOR_A = 1.0f;
 
     private:
-        QOpenGLShaderProgram graphicShader;
-        QOpenGLShaderProgram textureShader;
-        QSurfaceFormat format;
+        QSurfaceFormat* pFormat;
+        ShapeOffset* pOffset;
 
     private:
-        GLTriangleShape triangle;
-        GLRectangleShape rectangle;
-        GLTextureShape texture;
+        GLTriangleShape* pTriangle;
+        GLRectangleShape* pRectangle;
+        GLTextureShape* pTexture;
 
     private:
-        float offsetX;
-        float offsetY;
-        float offsetAngle;
-
-    private:
-        void setOpenGLConfig();
-        void loadShaders();
-        void initShapes();
-        void initOffset();
-        void setScreenRatio();
-
-    private:
-        void initializeGL();
-        void resizeGL(int screenWidth, int screenHeight);
-        void paintGL();
+        void initializeGL() override;
+        void resizeGL(int viewportWidth, int viewportHeight) override;
+        void paintGL() override;
 
     public:
         GraphicWidget(QWidget* parent = nullptr);
         ~GraphicWidget();
 
     public:
-        void setOffset(float offsetX, float offsetY, float offsetAngle);
+        void setShapeOffset(ShapeOffset* pOffset);
 };
 #endif
